@@ -1,0 +1,17 @@
+{% block simplemde_widget %}
+    <textarea {{ block('widget_attributes') }}>{{ value }}</textarea>
+
+    {% if enable %}
+        {{ block('_simplemde_javascript') }}
+    {% endif %}
+{% endblock %}
+
+{% block simplemde_javascript %}
+    {% if enable %}
+        {{ block('_simplemde_javascript') }}
+    {% endif %}
+{% endblock %}
+
+{% block _simplemde_javascript %}
+    {{ simplemde_widget(id, config) }}
+{% endblock %}
