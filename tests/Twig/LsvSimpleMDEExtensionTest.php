@@ -23,7 +23,7 @@ class LsvSimpleMDEExtensionTest extends TestCase
     /**
      * @test
      */
-    public function will_render_widget(): void
+    public function willRenderWidget(): void
     {
         self::assertIsString($this->extension->renderWidget('id', []));
     }
@@ -31,7 +31,7 @@ class LsvSimpleMDEExtensionTest extends TestCase
     /**
      * @test
      */
-    public function has_functions(): void
+    public function hasFunctions(): void
     {
         self::assertCount(1, $this->extension->getFunctions());
     }

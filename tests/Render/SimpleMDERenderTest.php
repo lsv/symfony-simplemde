@@ -24,7 +24,7 @@ class SimpleMDERenderTest extends TestCase
     /**
      * @test
      */
-    public function will_render_default(): void
+    public function willRenderDefault(): void
     {
         $rendered = $this->render->renderWidget('id', []);
         self::assertSame("let simplemde_id = new SimpleMDE({element: document.getElementById('id')})", $rendered);
@@ -33,7 +33,7 @@ class SimpleMDERenderTest extends TestCase
     /**
      * @test
      */
-    public function will_render_with_autodownload_fontawesome(): void
+    public function willRenderWithAutodownloadFontawesome(): void
     {
         $rendered = $this->render->renderWidget('id', ['auto_download_font_awesome' => true]);
         self::assertSame("let simplemde_id = new SimpleMDE({element: document.getElementById('id'), autoDownloadFontAwesome: true})", $rendered);
@@ -42,7 +42,7 @@ class SimpleMDERenderTest extends TestCase
     /**
      * @test
      */
-    public function will_render_false_value(): void
+    public function willRenderFalseValue(): void
     {
         $rendered = $this->render->renderWidget('id', ['auto_download_font_awesome' => false]);
         self::assertSame("let simplemde_id = new SimpleMDE({element: document.getElementById('id'), autoDownloadFontAwesome: false})", $rendered);
@@ -51,7 +51,7 @@ class SimpleMDERenderTest extends TestCase
     /**
      * @test
      */
-    public function will_render_autosave_delay(): void
+    public function willRenderAutosaveDelay(): void
     {
         $rendered = $this->render->renderWidget('id', ['autosave_delay' => 1000]);
         self::assertSame("let simplemde_id = new SimpleMDE({element: document.getElementById('id'), autosave: { delay: 1000 }})", $rendered);
@@ -60,7 +60,7 @@ class SimpleMDERenderTest extends TestCase
     /**
      * @test
      */
-    public function will_render_blockstyles_bold(): void
+    public function willRenderBlockstylesBold(): void
     {
         $rendered = $this->render->renderWidget('id', ['blockstyles_bold' => 'foo']);
         self::assertSame("let simplemde_id = new SimpleMDE({element: document.getElementById('id'), blockStyles: { bold: \"foo\" }})", $rendered);
