@@ -28,7 +28,7 @@ class SimpleMDEType extends AbstractType
 
     public function buildView(FormView $view, FormInterface $form, array $options): void
     {
-        $this->configuration->buildView($view, $form, $options);
+        $this->configuration->buildView($view, $form);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

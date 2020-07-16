@@ -42,7 +42,7 @@ class FormConfiguration
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $setAttr = static function (string $key) use ($options, $builder) {
+        $setAttr = static function (string $key) use ($options, $builder): void {
             if (null !== $options[$key]) {
                 $builder->setAttribute($key, $options[$key]);
             }
@@ -58,10 +58,10 @@ class FormConfiguration
         $setAttr('blockstyles_bold');
     }
 
-    public function buildView(FormView $view, FormInterface $form, array $options): void
+    public function buildView(FormView $view, FormInterface $form): void
     {
         $config = $form->getConfig();
-        $setView = static function (string $key) use ($config, $view) {
+        $setView = static function (string $key) use ($config, $view): void {
             $view->vars[$key] = $config->getAttribute($key);
         };
 
@@ -75,10 +75,13 @@ class FormConfiguration
         $setView('blockstyles_bold');
     }
 
+    /**
+     * @param array<array-key, mixed> $config
+     */
     public function render(array $config): array
     {
         $options = [];
-        $setOptions = function (string $optionKey, ?string $elementKey = null) use (&$options, $config) {
+        $setOptions = function (string $optionKey, ?string $elementKey = null) use (&$options, $config): void {
             $this->setOptions($config, $options, $optionKey, $elementKey);
         };
 
@@ -96,19 +99,24 @@ class FormConfiguration
         }
 
         if ($elementKey && false !== strpos($elementKey, '.')) {
-            $assignByPath = static function (&$arr, $path, $value, $separator = '.') {
-                $keys = (array) explode($separator, $path);
-                foreach ($keys as $key) {
-                    $arr = &$arr[$key];
-                }
-                $arr = $value;
-            };
-
-            $assignByPath($options, $elementKey, $config[$optionKey]);
+            $this->assignByPath($options, $elementKey, $config[$optionKey]);
 
             return;
         }
 
         $options[$elementKey ?? $optionKey] = $config[$optionKey];
+    }
+
+    /**
+     * @param mixed $value
+     */
+    private function assignByPath(array &$arr, string $path, $value, string $separator = '.'): void
+    {
+        $keys = (array) explode($separator, $path);
+        foreach ($keys as $key) {
+            /** @var array */
+            $arr = &$arr[$key];
+        }
+        $arr = $value;
     }
 }
