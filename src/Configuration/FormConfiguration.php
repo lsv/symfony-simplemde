@@ -114,9 +114,7 @@ class FormConfiguration
     {
         $keys = (array) explode($separator, $path);
         foreach ($keys as $key) {
-            /**
-             * @var array $arr
-             */
+            /** @var array */
             $arr = &$arr[$key];
         }
         $arr = $value;
