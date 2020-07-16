@@ -14,7 +14,7 @@ class LsvSimpleMDEExtensionTest extends AbstractExtensionTestCase
     /**
      * @test
      */
-    public function has_twig_extension(): void
+    public function hasTwigExtension(): void
     {
         $this->container->setParameter('kernel.bundles', []);
         $this->load();
@@ -26,7 +26,7 @@ class LsvSimpleMDEExtensionTest extends AbstractExtensionTestCase
     /**
      * @test
      */
-    public function has_form_type(): void
+    public function hasFormType(): void
     {
         $this->container->setParameter('kernel.bundles', []);
         $this->load();

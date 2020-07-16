@@ -20,7 +20,7 @@ class LsvSimpleMDEBundleTest extends TestCase
     /**
      * @test
      */
-    public function can_get_extension(): void
+    public function canGetExtension(): void
     {
         /* @noinspection UnnecessaryAssertionInspection */
         self::assertInstanceOf(LsvSimpleMDEExtension::class, $this->bundle->getContainerExtension());

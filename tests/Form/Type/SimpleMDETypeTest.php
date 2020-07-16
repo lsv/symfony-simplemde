@@ -28,7 +28,7 @@ class SimpleMDETypeTest extends TestCase
     /**
      * @test
      */
-    public function invalid_configuration(): void
+    public function invalidConfiguration(): void
     {
         $this->expectException(UndefinedOptionsException::class);
         $this->expectExceptionMessageMatches('/The option "invalid_configuration" does not exist/');
@@ -40,7 +40,7 @@ class SimpleMDETypeTest extends TestCase
     /**
      * @test
      */
-    public function is_enabled(): void
+    public function isEnabled(): void
     {
         $form = $this->factory->create($this->type);
         $view = $form->createView();
@@ -52,7 +52,7 @@ class SimpleMDETypeTest extends TestCase
     /**
      * @test
      */
-    public function is_disabled(): void
+    public function isDisabled(): void
     {
         $form = $this->factory->create($this->type, null, [
             'enable' => false,
@@ -66,7 +66,7 @@ class SimpleMDETypeTest extends TestCase
     /**
      * @test
      */
-    public function auto_download_fontAwesome(): void
+    public function autoDownloadFontAwesome(): void
     {
         $form = $this->factory->create($this->type, null, [
             'enable' => true,
@@ -81,7 +81,7 @@ class SimpleMDETypeTest extends TestCase
     /**
      * @test
      */
-    public function autosave_delay(): void
+    public function autosaveDelay(): void
     {
         $form = $this->factory->create($this->type, null, [
             'enable' => true,
@@ -96,7 +96,7 @@ class SimpleMDETypeTest extends TestCase
     /**
      * @test
      */
-    public function blockstyles_bold(): void
+    public function blockstylesBold(): void
     {
         $form = $this->factory->create($this->type, null, [
             'enable' => true,

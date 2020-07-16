@@ -16,7 +16,7 @@ class YamlConfigurationTest extends AbstractExtensionConfigurationTestCase
     /**
      * @test
      */
-    public function can_disable_by_yaml_configuration(): void
+    public function canDisableByYamlConfiguration(): void
     {
         $expected = array_merge(FormConfiguration::$defaultConfig, ['enable' => false]);
         $sources = [
