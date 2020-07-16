@@ -25,6 +25,7 @@ matrix:
         - php: 7.4
           env: STABILITY="dev"
 
+    allow_failures:
         - php: nightly
           env: CSFIX=false STABILITY="dev" COMPOSER_FLAGS="--ignore-platform-reqs --no-interaction"
 
@@ -39,7 +40,7 @@ install:
 script:
     - composer validate --strict --no-check-lock
     - if [[ $CSFIX == true ]]; then vendor/bin/php-cs-fixer --allow-risky=yes --dry-run --diff --stop-on-violation fix; fi
-    - vendor/bin/psalm
+    - if [[ $CSFIX == true ]]; then vendor/bin/psalm; fi
     - vendor/bin/phpunit $PHPUNIT_FLAGS
 
 after_script:
