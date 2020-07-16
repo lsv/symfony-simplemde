@@ -13,11 +13,11 @@ matrix:
     include:
         # Minimum supported dependencies with the latest and oldest PHP version
         - php: 7.4
-          env: COMPOSER_FLAGS="--prefer-stable --prefer-lowest" SYMFONY_DEPRECATIONS_HELPER="max[self]=0"
+          env: COMPOSER_FLAGS="--prefer-stable --prefer-lowest"
 
         # Test the latest stable release
         - php: 7.4
-          env: COVERAGE=true PHPUNIT_FLAGS="-v --coverage-text"
+          env: COVERAGE=true PHPUNIT_FLAGS="-v --coverage-text --coverage-clover=coverage.xml"
 
         # Latest commit to master
         - php: 7.4
@@ -35,3 +35,6 @@ script:
     - composer validate --strict --no-check-lock
     - composer test
     - vendor/bin/phpunit $PHPUNIT_FLAGS
+
+after_script:
+    - if [[ $COVERAGE == true ]]; then bash <(curl -s https://codecov.io/bash); fi
