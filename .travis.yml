@@ -7,13 +7,14 @@ cache:
 env:
     global:
         - PHPUNIT_FLAGS="-v"
+        - COMPOSER_FLAGS="--prefer-dist --no-interaction"
 
 matrix:
     fast_finish: true
     include:
         # Minimum supported dependencies with the latest and oldest PHP version
         - php: 7.4
-          env: COMPOSER_FLAGS="--prefer-stable --prefer-lowest"
+          env: COMPOSER_FLAGS="--prefer-stable --prefer-lowest --no-interaction"
 
         # Test the latest stable release
         - php: 7.4
@@ -24,7 +25,7 @@ matrix:
           env: STABILITY="dev"
 
         - php: nightly
-          env: COMPOSER_FLAGS="--ignore-platform-reqs"
+          env: STABILITY="dev" COMPOSER_FLAGS="--ignore-platform-reqs --no-interaction"
 
 before_install:
     - if [[ $COVERAGE != true ]]; then phpenv config-rm xdebug.ini || true; fi
@@ -32,7 +33,7 @@ before_install:
     - if ! [ -v "$DEPENDENCIES" ]; then composer require --no-update ${DEPENDENCIES}; fi;
 
 install:
-    - composer install ${COMPOSER_FLAGS} --prefer-dist --no-interaction
+    - composer install $COMPOSER_FLAGS --prefer-dist --no-interaction
 
 script:
     - composer validate --strict --no-check-lock
