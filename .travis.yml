@@ -7,6 +7,8 @@ cache:
 env:
     global:
         - PHPUNIT_FLAGS="-v"
+        - COMPOSER_FLAGS="--prefer-dist --no-interaction"
+        - CSFIX=true
 
 matrix:
     fast_finish: true
@@ -23,6 +25,9 @@ matrix:
         - php: 7.4
           env: STABILITY="dev"
 
+        - php: nightly
+          env: CSFIX=false STABILITY="dev" COMPOSER_FLAGS="--ignore-platform-reqs --no-interaction"
+
 before_install:
     - if [[ $COVERAGE != true ]]; then phpenv config-rm xdebug.ini || true; fi
     - if ! [ -z "$STABILITY" ]; then composer config minimum-stability ${STABILITY}; fi;
@@ -33,8 +38,8 @@ install:
 
 script:
     - composer validate --strict --no-check-lock
-    - vendor/bin/php-cs-fixer --allow-risky=yes --dry-run --diff --stop-on-violation fix
-    - vendor/bin/psalm
+    - if [[ $CSFIX == true ]]; then vendor/bin/php-cs-fixer --allow-risky=yes --dry-run --diff --stop-on-violation fix; fi
+    - if [[ $CSFIX == true ]]; then vendor/bin/psalm; fi
     - vendor/bin/phpunit $PHPUNIT_FLAGS
 
 after_script:
