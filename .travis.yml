@@ -25,7 +25,6 @@ matrix:
         - php: 7.4
           env: STABILITY="dev"
 
-    allow_failures:
         - php: nightly
           env: CSFIX=false STABILITY="dev" COMPOSER_FLAGS="--ignore-platform-reqs --no-interaction"
 
