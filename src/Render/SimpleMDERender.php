@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Lsv\SimpleMDEBundle\Render;
 
 use Lsv\SimpleMDEBundle\Configuration\FormConfiguration;
+use RuntimeException;
 
 class SimpleMDERender
 {
@@ -25,8 +26,7 @@ class SimpleMDERender
         }
 
         return sprintf(
-            "let simplemde_%s = new SimpleMDE({element: document.getElementById('%s')%s})",
-            $id,
+            'let simplemde_%1$s = new SimpleMDE({element: document.getElementById(\'%1$s\')%2$s})',
             $id,
             $json ? ', '.implode(',', $json) : ''
         );
@@ -35,10 +35,14 @@ class SimpleMDERender
     /**
      * @param mixed $value
      *
-     * @return mixed
+     * @return string|int|float
      */
     private function valueToJson($value)
     {
+        if (is_int($value) || is_float($value)) {
+            return $value;
+        }
+
         if (is_string($value)) {
             return "\"{$value}\"";
         }
@@ -60,6 +64,6 @@ class SimpleMDERender
             return implode(', ', $return);
         }
 
-        return $value;
+        throw new RuntimeException(sprintf('Could not convert type "%s"', gettype($value)));
     }
 }

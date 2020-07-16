@@ -19,10 +19,11 @@
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.16",
-        "phpstan/phpstan": "^0.12.32",
         "phpunit/phpunit": "^9.2",
         "matthiasnoback/symfony-config-test": "^4.2",
-        "matthiasnoback/symfony-dependency-injection-test": "^4.1"
+        "matthiasnoback/symfony-dependency-injection-test": "^4.1",
+        "vimeo/psalm": "^3.12",
+        "psalm/plugin-phpunit": "^0.10.1"
     },
     "autoload-dev": {
         "psr-4": {
@@ -32,12 +33,8 @@
     "scripts": {
         "fix": [
             "vendor/bin/php-cs-fixer --allow-risky=yes -q fix",
-            "vendor/bin/phpstan analyse -l max src tests",
-            "vendor/bin/phpunit"
-        ],
-        "test": [
-            "vendor/bin/php-cs-fixer --allow-risky=yes --dry-run --diff --stop-on-violation fix",
-            "vendor/bin/phpstan analyse -l max src tests"
+            "vendor/bin/phpunit",
+            "vendor/bin/psalm"
         ]
     }
 }

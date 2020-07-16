@@ -33,7 +33,8 @@ install:
 
 script:
     - composer validate --strict --no-check-lock
-    - composer test
+    - vendor/bin/php-cs-fixer --allow-risky=yes --dry-run --diff --stop-on-violation fix
+    - vendor/bin/psalm
     - vendor/bin/phpunit $PHPUNIT_FLAGS
 
 after_script:
