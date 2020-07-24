@@ -35,6 +35,11 @@ class LsvSimpleMDEExtensionTest extends AbstractExtensionTestCase
         self::assertArrayHasKey(SimpleMDEType::class, $taggedServices);
     }
 
+    /**
+     * @return LsvSimpleMDEExtension[]
+     *
+     * @psalm-return array{0: LsvSimpleMDEExtension}
+     */
     protected function getContainerExtensions(): array
     {
         return [

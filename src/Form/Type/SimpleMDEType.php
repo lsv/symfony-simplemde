@@ -41,6 +41,9 @@ class SimpleMDEType extends AbstractType
         return 'simplemde';
     }
 
+    /**
+     * @return TextareaType::class
+     */
     public function getParent(): string
     {
         return TextareaType::class;

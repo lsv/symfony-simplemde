@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Lsv\SimpleMDEBundleTest\DependencyInjection;
 
-use Lsv\SimpleMDEBundle\Configuration\FormConfiguration;
 use Lsv\SimpleMDEBundle\DependencyInjection\Configuration;
 use Lsv\SimpleMDEBundle\DependencyInjection\LsvSimpleMDEExtension;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionConfigurationTestCase;
@@ -18,18 +17,31 @@ class YamlConfigurationTest extends AbstractExtensionConfigurationTestCase
      */
     public function canDisableByYamlConfiguration(): void
     {
-        $expected = array_merge(FormConfiguration::$defaultConfig, ['enable' => false]);
+        $expected = array_merge(
+            [
+                'auto_download_font_awesome' => null,
+                'autosave_delay' => null,
+                'blockstyles_bold' => null,
+            ],
+            ['enable' => false]
+        );
         $sources = [
             __DIR__.'/../Fixtures/config/disable.yaml',
         ];
         $this->assertProcessedConfigurationEquals($expected, $sources);
     }
 
+    /**
+     * @return LsvSimpleMDEExtension
+     */
     protected function getContainerExtension(): ExtensionInterface
     {
         return new LsvSimpleMDEExtension();
     }
 
+    /**
+     * @return Configuration
+     */
     protected function getConfiguration(): ConfigurationInterface
     {
         return new Configuration();

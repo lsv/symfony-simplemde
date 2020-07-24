@@ -33,8 +33,8 @@
     "scripts": {
         "fix": [
             "vendor/bin/php-cs-fixer --allow-risky=yes -q fix",
-            "vendor/bin/phpunit",
-            "vendor/bin/psalm"
+            "vendor/bin/psalm",
+            "vendor/bin/phpunit"
         ]
     }
 }

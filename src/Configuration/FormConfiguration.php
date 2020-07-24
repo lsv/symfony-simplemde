@@ -11,33 +11,50 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class FormConfiguration
 {
-    public static array $defaultConfig = [
-        'enable' => true,
-        'auto_download_font_awesome' => null,
-        'autosave_delay' => null,
-        'blockstyles_bold' => null,
+    private static array $defaultConfig = [
+        'enable' => [
+            'default' => true,
+            'setoptions' => false,
+            'allowedtypes' => ['bool'],
+        ],
+        'auto_download_font_awesome' => [
+            'default' => null,
+            'setoptions' => true,
+            'allowedtypes' => ['null', 'bool'],
+            'elementkey' => 'autoDownloadFontAwesome',
+        ],
+        'autosave_delay' => [
+            'default' => null,
+            'setoptions' => true,
+            'allowedtypes' => ['null', 'int'],
+            'elementkey' => 'autosave.delay',
+        ],
+        'blockstyles_bold' => [
+            'default' => null,
+            'setoptions' => true,
+            'allowedtypes' => ['null', 'string'],
+            'elementkey' => 'blockStyles.bold',
+        ],
     ];
 
     private array $config;
 
     public function __construct(array $config)
     {
-        $this->config = array_merge(self::$defaultConfig, $config);
+        $defaultConfig = [];
+        foreach (self::$defaultConfig as $key => $item) {
+            $defaultConfig[$key] = $item['default'];
+        }
+
+        $this->config = array_merge($defaultConfig, $config);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefault('enable', $this->config['enable']);
-        $resolver->setAllowedTypes('enable', ['bool']);
-
-        $resolver->setDefault('autosave_delay', $this->config['autosave_delay']);
-        $resolver->setAllowedTypes('autosave_delay', ['null', 'int']);
-
-        $resolver->setDefault('auto_download_font_awesome', $this->config['auto_download_font_awesome']);
-        $resolver->setAllowedTypes('auto_download_font_awesome', ['null', 'bool']);
-
-        $resolver->setDefault('blockstyles_bold', $this->config['blockstyles_bold']);
-        $resolver->setAllowedTypes('blockstyles_bold', ['null', 'string']);
+        foreach (self::$defaultConfig as $key => $item) {
+            $resolver->setDefault($key, $this->config[$key]);
+            $resolver->setAllowedTypes($key, $item['allowedtypes']);
+        }
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -48,14 +65,15 @@ class FormConfiguration
             }
         };
 
-        $setAttr('enable');
         if (!$options['enable']) {
+            $setAttr('enable');
+
             return;
         }
 
-        $setAttr('autosave_delay');
-        $setAttr('auto_download_font_awesome');
-        $setAttr('blockstyles_bold');
+        foreach (array_keys(self::$defaultConfig) as $key) {
+            $setAttr($key);
+        }
     }
 
     public function buildView(FormView $view, FormInterface $form): void
@@ -65,14 +83,15 @@ class FormConfiguration
             $view->vars[$key] = $config->getAttribute($key);
         };
 
-        $setView('enable');
-        if (!$view->vars['enable']) {
+        if (!$config->getAttribute('enable')) {
+            $setView('enable');
+
             return;
         }
 
-        $setView('autosave_delay');
-        $setView('auto_download_font_awesome');
-        $setView('blockstyles_bold');
+        foreach (array_keys(self::$defaultConfig) as $key) {
+            $setView($key);
+        }
     }
 
     /**
@@ -85,9 +104,13 @@ class FormConfiguration
             $this->setOptions($config, $options, $optionKey, $elementKey);
         };
 
-        $setOptions('autosave_delay', 'autosave.delay');
-        $setOptions('auto_download_font_awesome', 'autoDownloadFontAwesome');
-        $setOptions('blockstyles_bold', 'blockStyles.bold');
+        foreach (self::$defaultConfig as $key => $item) {
+            if (!$item['setoptions']) {
+                continue;
+            }
+
+            $setOptions($key, $item['elementkey'] ?? null);
+        }
 
         return $options;
     }

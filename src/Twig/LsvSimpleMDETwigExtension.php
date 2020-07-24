@@ -17,6 +17,11 @@ class LsvSimpleMDETwigExtension extends AbstractExtension
         $this->render = $render;
     }
 
+    /**
+     * @return TwigFunction[]
+     *
+     * @psalm-return array{0: TwigFunction}
+     */
     public function getFunctions(): array
     {
         return [
